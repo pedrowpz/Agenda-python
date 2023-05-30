@@ -11,7 +11,8 @@ def menu():
         [2]LISTAR CONTATO
         [3]DELETAR CONTATO
         [4]BUSCAR CONTATO PELO NOME
-        [5]SAIR 
+        [5]ATUALIZAR CONTATO
+        [6]SAIR 
         =========================================================
         ESCOLHA UMA OPÇÃO ACIMA: 
         ''')
@@ -24,10 +25,13 @@ def menu():
         elif opcao =="4":
             buscarContatoPeloNome()
         elif opcao =="5":
+            atualizarContato()
+        elif opcao =="6":
             sair()
         else:
             print('Opção Inválida')
         voltarMenuPrencipal = input("Deseja volta ao menu principal? (s/n) ").lower()
+
 
 def cadastrarContato():
     idContato = input("Escolha o Id do seu contato: ")
@@ -46,7 +50,7 @@ def cadastrarContato():
 
 def listarContato():
     try:   
-        agenda = open("agenda.txt", "r")
+        agenda = open("agenda.txt","r")
         for contato in agenda:
             print(contato)
     finally:
@@ -80,6 +84,35 @@ def buscarContatoPeloNome():
             print("Contato inexistente")
         break
     agenda.close()
+
+
+def atualizarContato():
+    nomeDeletado = input("Digite o nome para ser atualizado: ").lower()
+    agenda = open("agenda.txt","r")
+    aux = []
+    aux2 = []
+    for i in agenda:
+        aux.append(i)
+    for i in range(0, len(aux)):
+        if nomeDeletado not in aux[i].lower():
+            aux2.append(aux[i])
+    agenda = open("agenda.txt","w")
+    for i in aux2:
+        agenda.write(i)
+    idContato = input("Escolha o Id do seu contato atualizado: ")
+    nome = input("Escolha o nome do seu contato atualizado: ")
+    telefone = input("Escolha o telefone do seu contato atualizado: ")
+    email = input("Escreva o email do contato atualizado: ")
+    try:
+        agenda = open("agenda.txt" , "a")
+        dados = f'{idContato};{nome};{telefone};{email} \n'
+        agenda.write(dados)
+        agenda.close()
+        print(f'Contato atualizado com sucesso !!!!!')
+    except:
+        print("Erro na gravação do contato")
+
+
 
 def sair():
     print('Saindo do programa')
